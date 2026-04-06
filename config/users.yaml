@@ -1,0 +1,20 @@
+users:
+  - name: alice
+    email: alice@shae-devops.com
+    github_team: backend
+    aws_account: dev
+
+  - name: bob
+    email: bob@shae-devops.com
+    github_team: frontend
+    aws_account: prod
+
+  - name: charlie
+    email: charlie@shae-devops.com
+    github_team: backend
+    aws_account: dev
+
+  - name: diana
+    email: diana@shae-devops.com
+    github_team: frontend
+    aws_account: prod

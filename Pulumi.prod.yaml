@@ -1,0 +1,4 @@
+config:
+  aws:region: us-east-2
+  infra-user-management:githubOrg: shae-devops-demo
+  infra-user-management:awsAccountId: "482112737419"

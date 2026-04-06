@@ -1,0 +1,25 @@
+node_modules/
+bin/
+.pulumi/
+
+# Secrets & credentials — NEVER commit these
+*.csv
+PAT.TXT
+AWS_CRED.TXT
+*.pem
+*.key
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Assignment PDF
+devops_assignment.pdf

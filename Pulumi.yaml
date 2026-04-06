@@ -1,0 +1,3 @@
+name: infra-user-management
+runtime: nodejs
+description: Pulumi IaC for managing GitHub and AWS IAM Identity Center users, teams, and permissions

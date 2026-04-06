@@ -1,0 +1,25 @@
+{
+  "name": "infra-user-management",
+  "version": "1.0.0",
+  "description": "Pulumi IaC for managing GitHub and AWS IAM Identity Center users, teams, and permissions",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha --require ts-node/register tests/**/*.test.ts --timeout 10000",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.0.0",
+    "@pulumi/aws": "^6.0.0",
+    "@pulumi/github": "^6.0.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "mocha": "^10.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
