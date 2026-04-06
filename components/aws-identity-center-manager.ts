@@ -9,11 +9,7 @@ export interface AwsIdentityCenterManagerArgs {
   awsAccountId: string;
 }
 
-/**
- * Permission-set definitions per environment.
- * "dev" grants broader access for development work; "prod" is read-only
- * to enforce least-privilege in production.
- */
+// Permission-set definitions keyed by environment name.
 const PERMISSION_SET_CONFIGS: Record<
   string,
   { description: string; policies: string[]; sessionDuration: string }
@@ -35,12 +31,8 @@ const PERMISSION_SET_CONFIGS: Record<
 };
 
 /**
- * Manages AWS IAM Identity Center (SSO) users, groups, permission sets,
- * and account assignments.
- *
- * Groups are derived from the unique `aws_account` values in the user config
- * (e.g. "dev", "prod"). Each group gets a permission set attached with
- * least-privilege managed policies and is assigned to the target AWS account.
+ * Creates Identity Center users, groups, permission sets and account
+ * assignments. Groups map 1:1 to the `aws_account` values in the user config.
  */
 export class AwsIdentityCenterManager extends pulumi.ComponentResource {
   public readonly ssoUsers: Record<string, aws.identitystore.User>;

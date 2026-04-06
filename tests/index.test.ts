@@ -1,7 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 
-// Must be set before any Pulumi resource is imported so the runtime enters
-// test mode and never tries to talk to a real backend.
+// Set mocks before importing resource modules so Pulumi enters test mode.
 pulumi.runtime.setMocks(
   {
     newResource(args: pulumi.runtime.MockResourceArgs): {
@@ -12,7 +11,7 @@ pulumi.runtime.setMocks(
         id: `${args.name}-id`,
         state: {
           ...args.inputs,
-          // Synthesise outputs that components read from child resources
+          // Provide outputs that components read from child resources
           groupId: `${args.name}-groupId`,
           userId: `${args.name}-userId`,
           arn: `arn:aws:sso:::permissionSet/ssoins-mock/${args.name}`,
@@ -33,7 +32,7 @@ pulumi.runtime.setMocks(
   "dev"
 );
 
-// --- Now safe to import resource modules ---------------------------------
+// Imports below are safe now that mocks are registered.
 import { describe, it } from "mocha";
 import * as assert from "assert";
 import * as path from "path";

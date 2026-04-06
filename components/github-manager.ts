@@ -7,12 +7,7 @@ export interface GitHubManagerArgs {
   users: UserConfig[];
 }
 
-/**
- * Manages GitHub organization teams and memberships.
- *
- * Creates teams derived from the user config, invites users to the org,
- * and assigns each user to their designated team.
- */
+/** Creates GitHub org teams and memberships from the shared user config. */
 export class GitHubManager extends pulumi.ComponentResource {
   public readonly teams: Record<string, github.Team>;
   public readonly memberships: github.Membership[];

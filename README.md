@@ -1,19 +1,10 @@
 # infra-user-management
 
-Pulumi (TypeScript) infrastructure-as-code that manages **GitHub organisation users/teams** and **AWS IAM Identity Center (SSO) users/groups** from a single configuration file.
+Pulumi (TypeScript) infrastructure-as-code that manages **GitHub organization users/teams** and **AWS IAM Identity Center (SSO) users/groups** from a single configuration file.
 
 ## Architecture
 
-```
-config/users.yaml          ← single source of truth for all users
-        │
-        ▼
-   index.ts                ← Pulumi program entry-point
-    ├── GitHubManager      ← ComponentResource: teams, org memberships, team memberships
-    └── AwsIdentityCenterManager
-                           ← ComponentResource: SSO users, groups, permission sets,
-                              managed-policy attachments, account assignments
-```
+![Architecture Diagram](assets/architecture-diagram.png)
 
 ### Key design decisions
 
@@ -22,7 +13,7 @@ config/users.yaml          ← single source of truth for all users
 | **TypeScript** | Strong typing, first-class Pulumi support, better IDE experience |
 | **ComponentResource classes** | Encapsulate related resources; reusable across stacks |
 | **Separate YAML config** | Non-engineers can edit users without touching IaC code |
-| **Least-privilege permission sets** | `dev` → PowerUserAccess; `prod` → ReadOnlyAccess |
+| **Least-privilege permission sets** | `dev` -> PowerUserAccess; `prod` -> ReadOnlyAccess |
 | **Pulumi stacks for multi-env** | `dev` and `prod` stacks with independent configs |
 | **Pulumi-native secret management** | Secrets encrypted in state; no external vault required |
 
@@ -30,15 +21,15 @@ config/users.yaml          ← single source of truth for all users
 
 | Tool | Version |
 |---|---|
-| [Node.js](https://nodejs.org/) | ≥ 18 |
-| [Pulumi CLI](https://www.pulumi.com/docs/install/) | ≥ 3.x |
-| AWS account with IAM Identity Center enabled | — |
-| GitHub organisation | — |
+| [Node.js](https://nodejs.org/) | >= 18 |
+| [Pulumi CLI](https://www.pulumi.com/docs/install/) | >= 3.x |
+| AWS account with IAM Identity Center enabled | - |
+| GitHub organization | - |
 
 ## Quick start
 
 ```bash
-# 1. Clone & install
+# 1. Clone and install
 git clone https://github.com/shae-devops-demo/infra-user-management.git
 cd infra-user-management
 npm install
@@ -60,7 +51,7 @@ pulumi up        # apply
 
 ## Configuration
 
-### User config — `config/users.yaml`
+### User config - `config/users.yaml`
 
 All users are defined in a single YAML file:
 
@@ -84,12 +75,12 @@ users:
 | `github_team` | yes | GitHub team to assign the user to |
 | `aws_account` | yes | AWS Identity Center group (maps to a permission set) |
 
-### Stack config — `Pulumi.<stack>.yaml`
+### Stack config - `Pulumi.<stack>.yaml`
 
 | Key | Description |
 |---|---|
 | `aws:region` | AWS region where Identity Center is enabled |
-| `infra-user-management:githubOrg` | GitHub organisation slug |
+| `infra-user-management:githubOrg` | GitHub organization slug |
 | `infra-user-management:awsAccountId` | AWS account ID for SSO account assignments |
 
 ### Secrets
@@ -124,7 +115,7 @@ pulumi up
 npm test
 ```
 
-Tests use Pulumi's runtime mocking to validate component behaviour without requiring cloud credentials:
+Tests use Pulumi's runtime mocking to validate component behavior without requiring cloud credentials:
 
 - Config loader validation (schema enforcement, error handling)
 - GitHubManager creates correct teams and memberships
@@ -136,8 +127,8 @@ GitHub Actions workflow (`.github/workflows/deploy.yml`):
 
 | Trigger | Action |
 |---|---|
-| Pull request → `main` | `pulumi preview` with PR comment |
-| Push → `main` | `pulumi up` (auto-deploy) |
+| Pull request -> `main` | `pulumi preview` with PR comment |
+| Push -> `main` | `pulumi up` (auto-deploy) |
 
 ### Required GitHub Actions secrets
 
@@ -151,26 +142,25 @@ GitHub Actions workflow (`.github/workflows/deploy.yml`):
 ## Project structure
 
 ```
-.
-├── .github/workflows/deploy.yml   CI/CD pipeline
-├── components/
-│   ├── github-manager.ts          GitHub ComponentResource
-│   └── aws-identity-center-manager.ts  AWS SSO ComponentResource
-├── config/
-│   └── users.yaml                 User definitions (single source of truth)
-├── tests/
-│   └── index.test.ts              Unit tests with Pulumi mocks
-├── types/
-│   └── index.ts                   Shared TypeScript interfaces
-├── utils/
-│   └── config-loader.ts           YAML config parser with validation
-├── index.ts                       Pulumi program entry-point
-├── Pulumi.yaml                    Project metadata
-├── Pulumi.dev.yaml                Dev stack config
-├── Pulumi.prod.yaml               Prod stack config
-├── package.json                   Dependencies
-├── tsconfig.json                  TypeScript compiler config
-└── README.md
+.github/workflows/deploy.yml       CI/CD pipeline
+components/
+  github-manager.ts                GitHub ComponentResource
+  aws-identity-center-manager.ts   AWS SSO ComponentResource
+config/
+  users.yaml                       User definitions (single source of truth)
+tests/
+  index.test.ts                    Unit tests with Pulumi mocks
+types/
+  index.ts                         Shared TypeScript interfaces
+utils/
+  config-loader.ts                 YAML config parser with validation
+index.ts                           Pulumi program entry-point
+Pulumi.yaml                        Project metadata
+Pulumi.dev.yaml                    Dev stack config
+Pulumi.prod.yaml                   Prod stack config
+package.json                       Dependencies
+tsconfig.json                      TypeScript compiler config
+README.md
 ```
 
 ## Teardown
